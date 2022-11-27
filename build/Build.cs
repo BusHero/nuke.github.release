@@ -1,10 +1,7 @@
 using Nuke.Common;
-using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
-using static Nuke.Common.Tools.Git.GitTasks;
-using Nuke.Common.Tools.Git;
 
-class Build : NukeBuild
+partial class Build : NukeBuild
 {
 	public static int Main() => Execute<Build>(x => x.Compile);
 
