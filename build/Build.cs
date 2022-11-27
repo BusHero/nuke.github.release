@@ -1,5 +1,6 @@
 using Nuke.Common;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using Nuke.Common.Tools.DotNet;
 
 partial class Build : NukeBuild
 {
@@ -12,19 +13,22 @@ partial class Build : NukeBuild
 		.Before(Restore)
 		.Executes(() =>
 		{
-			DotNetClean();
+			DotNetClean(_ => _
+				.SetProject(RootDirectory / "App.Console" / "App.Console.csproj"));
 		});
 
 	Target Restore => _ => _
 		.Executes(() =>
 		{
-			DotNetRestore();
+			DotNetRestore(_ => _
+				.SetProjectFile(RootDirectory / "App.Console" / "App.Console.csproj"));
 		});
 
 	Target Compile => _ => _
 		.DependsOn(Restore)
 		.Executes(() =>
 		{
-			DotNetBuild();
+			DotNetBuild(_ => _
+				.SetProjectFile(RootDirectory / "App.Console" / "App.Console.csproj"));
 		});
 }
