@@ -1,0 +1,20 @@
+name: continous
+on: pull_request
+
+jobs:
+  playground:
+    name: playgrounnd
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Cache .nuke/temp, ~/.nuget/packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            .nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
+      - name: Run some command
+        run: ./build.sh Compile
