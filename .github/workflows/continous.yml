@@ -17,4 +17,4 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
       - name: Run some command
-        run: ./build.sh Build
+        run: ./build.sh Compile
