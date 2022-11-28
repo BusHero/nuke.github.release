@@ -27,6 +27,8 @@ partial class Build
 			var milestoneTitle = $"v{MajorMinorPatchVersion}";
 			var milestone = await GitRepository.GetGitHubMilestone(milestoneTitle);
 
+			await GitRepository.TryCreateGitHubMilestone(milestoneTitle);
+
 			Log.Information("Milestone - '{Milestone}'", milestone);
 			Log.Information("Milestone Open issues - '{MilestoneOpenIssues}'", milestone?.OpenIssues);
 			Log.Information("Milestone Closed issues - '{MilestoneClosedIssues}'", milestone?.ClosedIssues);
