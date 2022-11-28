@@ -3,7 +3,6 @@ using Nuke.Common;
 using Nuke.Common.Git;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
-using Octokit;
 using Serilog;
 
 partial class Build
@@ -30,10 +29,9 @@ partial class Build
 			var milestone = await GitRepository.GetGitHubMilestone(milestoneTitle);
 
 			await GitRepository.TryCreateGitHubMilestone(milestoneTitle);
-
-			using var _ = new AssertionScope();
-			Assert.True(milestone.OpenIssues == 0);
-			Assert.True(milestone.ClosedIssues != 0);
-			Assert.True(milestone.State == ItemState.Closed);
+			Log.Information("Milestone - '{Milestone}'", milestone);
+			Log.Information("Milestone Open issues - '{MilestoneOpenIssues}'", milestone?.OpenIssues);
+			Log.Information("Milestone Closed issues - '{MilestoneClosedIssues}'", milestone?.ClosedIssues);
+			Log.Information("Milestone State - '{MilestoneState}'", milestone?.State);
 		});
 }
