@@ -16,5 +16,7 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
-      - name: Run some command
-        run: ./build.sh Compile
+      - name: Display version 1
+        run: ./build.sh ShowVersion
+      - name: Display version 2
+        run: ./build.sh ShowVersion -Major
