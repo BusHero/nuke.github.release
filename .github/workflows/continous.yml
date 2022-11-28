@@ -19,4 +19,4 @@ jobs:
       - name: Display version 1
         run: ./build.sh ShowVersion
       - name: Display version 2
-        run: ./build.sh ShowVersion -Major
+        run: ./build.sh Milestone
