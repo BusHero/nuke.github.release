@@ -43,6 +43,9 @@
             "VSCode"
           ]
         },
+        "Major": {
+          "type": "boolean"
+        },
         "NoLogo": {
           "type": "boolean",
           "description": "Disables displaying the NUKE logo"
@@ -74,7 +77,8 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Restore",
+              "ShowVersion"
             ]
           }
         },
@@ -86,7 +90,8 @@
             "enum": [
               "Clean",
               "Compile",
-              "Restore"
+              "Restore",
+              "ShowVersion"
             ]
           }
         },
