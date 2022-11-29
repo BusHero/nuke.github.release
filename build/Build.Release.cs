@@ -4,6 +4,8 @@ using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.ChangeLog.ChangelogTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
+using Nuke.Common.Tools.Git;
 using Serilog;
 using System.IO;
 
@@ -15,6 +17,8 @@ partial class Build
 	[GitVersion] GitVersion GitVersion;
 
 	[GitRepository] GitRepository GitRepository;
+
+	const string MasterBranch = "main";
 
 	string MajorMinorPatchVersion => Major ? $"{GitVersion.Major + 1}.0.0" : GitVersion.MajorMinorPatch;
 
@@ -46,10 +50,13 @@ partial class Build
 			using var _ = File.CreateText(ChangelogFile);
 		});
 
-	Target Changelog => _ => _
+	Target Release => _ => _
 		.DependsOn(EnsureChangelogFile)
 		.Executes(() =>
 		{
-			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, GitRepository);
+			Git($"checkout {MasterBranch}");
+			Git($"merge --no-ff --no-edit {GitRepository.Branch}");
+			Git($"tag {MajorMinorPatchVersion}");
+			Git($"push origin {MasterBranch} {MajorMinorPatchVersion}");
 		});
 }

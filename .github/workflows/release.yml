@@ -1,5 +1,5 @@
-name: continous
-on: pull_request
+name: release
+on: workflow_dispatch
 
 jobs:
   playground:
@@ -17,4 +17,4 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
       - name: Milestone
-        run: ./build.sh ShowVersion
+        run: ./build.sh Release
