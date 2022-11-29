@@ -1,9 +1,11 @@
-using FluentAssertions.Execution;
 using Nuke.Common;
 using Nuke.Common.Git;
+using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
+using static Nuke.Common.ChangeLog.ChangelogTasks;
 using Serilog;
+using System.IO;
 
 partial class Build
 {
@@ -33,5 +35,21 @@ partial class Build
 			Log.Information("Milestone Open issues - '{MilestoneOpenIssues}'", milestone?.OpenIssues);
 			Log.Information("Milestone Closed issues - '{MilestoneClosedIssues}'", milestone?.ClosedIssues);
 			Log.Information("Milestone State - '{MilestoneState}'", milestone?.State);
+		});
+
+	AbsolutePath ChangelogFile => RootDirectory / "CHANGELOG.md";
+
+	Target EnsureChangelogFile => _ => _
+		.Unlisted()
+		.Executes(() =>
+		{
+			using var _ = File.CreateText(ChangelogFile);
+		});
+
+	Target Changelog => _ => _
+		.DependsOn(EnsureChangelogFile)
+		.Executes(() =>
+		{
+			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, GitRepository);
 		});
 }
