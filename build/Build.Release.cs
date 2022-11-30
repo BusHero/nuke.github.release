@@ -8,6 +8,7 @@ using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Utilities;
+using Octokit;
 
 [GitHubActions(
 	"foo",
@@ -61,6 +62,9 @@ partial class Build
 	Target Release => _ => _
 		.Executes(() =>
 		{
-			Log.Information("Token - {Token}", GitHubActions.Token);
+			var credentials = new Credentials(GitHubActions.Token);
+			GitHubTasks.GitHubClient = new GitHubClient(
+				new ProductHeaderValue(nameof(NukeBuild)),
+				new Octokit.Internal.InMemoryCredentialStore(credentials));
 		});
 }
