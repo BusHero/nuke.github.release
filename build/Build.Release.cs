@@ -7,6 +7,8 @@ using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
+using System.Net.Http.Headers;
+using Octokit;
 
 partial class Build
 {
@@ -97,22 +99,21 @@ partial class Build
 		});
 
 	Target Release => _ => _
-	 	.DependsOn(ShowRepositoryInfo)
 		.Executes(() =>
 		{
-			// var credentials = new Credentials(GitHubActions.Token);
-			// GitHubTasks.GitHubClient = new GitHubClient(
-			// 	new ProductHeaderValue(nameof(NukeBuild)),
-			// 	new Octokit.Internal.InMemoryCredentialStore(credentials));
-			// var release = new NewRelease(MajorMinorPatchVersion)
-			// {
-			// 	Name = $"Release {MajorMinorPatchVersion}",
-			// 	Prerelease = true,
-			// 	Body = "Some body here and there"
-			// };
-			// var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(
-			// 	GitHubActions.RepositoryOwner,
-			// 	GitRepository.Identifier,
-			// 	NewRelease).Result;
+			var credentials = new Credentials(GitHubActions.Token);
+			GitHubTasks.GitHubClient = new GitHubClient(
+				new Octokit.ProductHeaderValue(nameof(NukeBuild)),
+				new Octokit.Internal.InMemoryCredentialStore(credentials));
+			var release = new NewRelease(MajorMinorPatchVersion)
+			{
+				Name = $"Release {MajorMinorPatchVersion}",
+				Prerelease = true,
+				Body = "Some body here and there"
+			};
+			var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(
+				GitHubActions.RepositoryOwner,
+				"nuke.github.release",
+				release).Result;
 		});
 }
