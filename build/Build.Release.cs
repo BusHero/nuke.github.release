@@ -7,15 +7,7 @@ using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
-using Nuke.Common.Utilities;
-using Octokit;
 
-[GitHubActions(
-	"foo",
-	GitHubActionsImage.UbuntuLatest,
-	On = new[] { GitHubActionsTrigger.Push },
-	InvokedTargets = new[] { nameof(Compile) },
-	EnableGitHubToken = true)]
 partial class Build
 {
 	[Parameter]
@@ -105,7 +97,7 @@ partial class Build
 		});
 
 	Target Release => _ => _
-	 	.DependsOn(ShowRepositoryInfo, ShowActionInfo)
+	 	.DependsOn(ShowRepositoryInfo)
 		.Executes(() =>
 		{
 			// var credentials = new Credentials(GitHubActions.Token);
