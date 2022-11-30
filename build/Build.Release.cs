@@ -90,7 +90,6 @@ partial class Build
 			Log.Information("Home - {Home}", GitHubActions.Home);
 			Log.Information("IsPullRequest - {IsPullRequest}", GitHubActions.IsPullRequest);
 			Log.Information("Job - {Job}", GitHubActions.Job);
-			Log.Information("JobId - {JobId}", GitHubActions.JobId);
 			Log.Information("PullRequestAction - {PullRequestAction}", GitHubActions.PullRequestAction);
 			Log.Information("PullRequestNumber - {PullRequestNumber}", GitHubActions.PullRequestNumber);
 			Log.Information("Ref - {Ref}", GitHubActions.Ref);
