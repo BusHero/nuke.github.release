@@ -18,6 +18,8 @@ partial class Build
 
 	[GitRepository] GitRepository GitRepository;
 
+	GitHubActions GitHubActions => GitHubActions.Instance;
+
 	const string MasterBranch = "master";
 
 	string MajorMinorPatchVersion => Major ? $"{GitVersion.Major + 1}.0.0" : GitVersion.MajorMinorPatch;
@@ -54,17 +56,29 @@ partial class Build
 	Target Release => _ => _
 		.Executes(() =>
 		{
-			var credentials = new Credentials(GitHubActions.Instance.Token);
-			GitHubTasks.GitHubClient = new GitHubClient(
-				new ProductHeaderValue(nameof(NukeBuild)),
-				new Octokit.Internal.InMemoryCredentialStore(credentials));
-
-			var newRelease = new NewRelease(MajorMinorPatchVersion)
-			{
-				Draft = true,
-				Prerelease = true,
-				Body = "Some notes here and there"
-			};
-			Log.Information("{release}", newRelease);
+			Log.Information("Token - {Token}", GitHubActions.Token);
+			Log.Information("Action - {Action}", GitHubActions.Action);
+			Log.Information("Actor - {Actor}", GitHubActions.Actor);
+			Log.Information("BaseRef - {BaseRef}", GitHubActions.BaseRef);
+			Log.Information("EventName - {EventName}", GitHubActions.EventName);
+			Log.Information("EventPath - {EventPath}", GitHubActions.EventPath);
+			Log.Information("GitHubEvent - {GitHubEvent}", GitHubActions.GitHubEvent);
+			Log.Information("HeadRef - {HeadRef}", GitHubActions.HeadRef);
+			Log.Information("Home - {Home}", GitHubActions.Home);
+			Log.Information("IsPullRequest - {IsPullRequest}", GitHubActions.IsPullRequest);
+			Log.Information("Job - {Job}", GitHubActions.Job);
+			Log.Information("JobId - {JobId}", GitHubActions.JobId);
+			Log.Information("PullRequestAction - {PullRequestAction}", GitHubActions.PullRequestAction);
+			Log.Information("PullRequestNumber - {PullRequestNumber}", GitHubActions.PullRequestNumber);
+			Log.Information("Ref - {Ref}", GitHubActions.Ref);
+			Log.Information("Repository - {Repository}", GitHubActions.Repository);
+			Log.Information("RepositoryOwner - {RepositoryOwner}", GitHubActions.RepositoryOwner);
+			Log.Information("RunId - {RunId}", GitHubActions.RunId);
+			Log.Information("RunNumber - {RunNumber}", GitHubActions.RunNumber);
+			Log.Information("ServerUrl - {ServerUrl}", GitHubActions.ServerUrl);
+			Log.Information("Sha - {Sha}", GitHubActions.Sha);
+			Log.Information("Token - {Token}", GitHubActions.Token);
+			Log.Information("Workflow - {Workflow}", GitHubActions.Workflow);
+			Log.Information("Workspace - {Workspace}", GitHubActions.Workspace);
 		});
 }
