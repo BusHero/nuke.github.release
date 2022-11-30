@@ -75,11 +75,11 @@
           "items": {
             "type": "string",
             "enum": [
-              "Changelog",
               "Clean",
               "Compile",
               "EnsureChangelogFile",
               "Milestone",
+              "Release",
               "Restore",
               "ShowVersion"
             ]
@@ -91,11 +91,11 @@
           "items": {
             "type": "string",
             "enum": [
-              "Changelog",
               "Clean",
               "Compile",
               "EnsureChangelogFile",
               "Milestone",
+              "Release",
               "Restore",
               "ShowVersion"
             ]

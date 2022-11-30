@@ -18,3 +18,5 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('global.json', 'source/**/*.csproj') }}
       - name: Release
         run: ./build.sh Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

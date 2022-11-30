@@ -3,12 +3,18 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
-using static Nuke.Common.ChangeLog.ChangelogTasks;
-using static Nuke.Common.Tools.Git.GitTasks;
-using Nuke.Common.Tools.Git;
+using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Serilog;
 using System.IO;
+using Nuke.Common.CI.GitHubActions;
+using Nuke.Common.Utilities;
 
+[GitHubActions(
+	"foo",
+	GitHubActionsImage.UbuntuLatest,
+	On = new[] { GitHubActionsTrigger.Push },
+	InvokedTargets = new[] { nameof(Compile) },
+	EnableGitHubToken = true)]
 partial class Build
 {
 	[Parameter]
@@ -18,7 +24,9 @@ partial class Build
 
 	[GitRepository] GitRepository GitRepository;
 
-	const string MasterBranch = "main";
+	GitHubActions GitHubActions => GitHubActions.Instance;
+
+	const string MasterBranch = "master";
 
 	string MajorMinorPatchVersion => Major ? $"{GitVersion.Major + 1}.0.0" : GitVersion.MajorMinorPatch;
 
@@ -53,9 +61,6 @@ partial class Build
 	Target Release => _ => _
 		.Executes(() =>
 		{
-			Git($"checkout {MasterBranch}");
-			Git($"merge --no-ff --no-edit {GitRepository.Branch}");
-			Git($"tag {MajorMinorPatchVersion}");
-			Git($"push origin {MasterBranch} {MajorMinorPatchVersion}");
+			Log.Information("Token - {Token}", GitHubActions.Token);
 		});
 }
