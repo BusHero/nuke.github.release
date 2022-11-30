@@ -6,8 +6,8 @@ using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Serilog;
 using System.IO;
-using Octokit;
 using Nuke.Common.CI.GitHubActions;
+using Nuke.Common.Utilities;
 
 partial class Build
 {
@@ -52,11 +52,12 @@ partial class Build
 			using var _ = File.CreateText(ChangelogFile);
 		});
 
+	static string GetSecretValue(string secret)
+				=> $"${{{{ secrets.{secret.SplitCamelHumpsWithKnownWords().JoinUnderscore().ToUpperInvariant()} }}}}";
 
 	Target Release => _ => _
 		.Executes(() =>
 		{
-			Log.Information("Token - {Token}", GitHubActions.Token);
 			// Log.Information("Action - {Action}", GitHubActions.Action);
 			// Log.Information("Actor - {Actor}", GitHubActions.Actor);
 			// Log.Information("BaseRef - {BaseRef}", GitHubActions.BaseRef);
@@ -77,7 +78,7 @@ partial class Build
 			// Log.Information("RunNumber - {RunNumber}", GitHubActions.RunNumber);
 			// Log.Information("ServerUrl - {ServerUrl}", GitHubActions.ServerUrl);
 			// Log.Information("Sha - {Sha}", GitHubActions.Sha);
-			// Log.Information("Token - {Token}", GitHubActions.Token);
+			Log.Information("Token - {Token}", GitHubActions.Token);
 			// Log.Information("Workflow - {Workflow}", GitHubActions.Workflow);
 			// Log.Information("Workspace - {Workspace}", GitHubActions.Workspace);
 		});
