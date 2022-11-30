@@ -18,7 +18,7 @@ partial class Build
 
 	[GitRepository] GitRepository GitRepository;
 
-	const string MasterBranch = "main";
+	const string MasterBranch = "master";
 
 	string MajorMinorPatchVersion => Major ? $"{GitVersion.Major + 1}.0.0" : GitVersion.MajorMinorPatch;
 
