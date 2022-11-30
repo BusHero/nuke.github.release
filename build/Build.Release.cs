@@ -51,7 +51,6 @@ partial class Build
 		});
 
 	Target Release => _ => _
-		.DependsOn(EnsureChangelogFile)
 		.Executes(() =>
 		{
 			Git($"checkout {MasterBranch}");
