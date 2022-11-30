@@ -19,4 +19,4 @@ jobs:
       - name: Release
         run: ./build.sh Release
         env:
-          GITHUB_CONTEXT: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
