@@ -5,9 +5,13 @@ using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.ChangeLog.ChangelogTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
+using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Nuke.Common.Tools.Git;
 using Serilog;
 using System.IO;
+using Octokit;
+using Nuke.Common.CI.GitHubActions;
+using Octokit.Internal;
 
 partial class Build
 {
@@ -50,12 +54,21 @@ partial class Build
 			using var _ = File.CreateText(ChangelogFile);
 		});
 
+
 	Target Release => _ => _
 		.Executes(() =>
 		{
-			Git($"checkout {MasterBranch}");
-			Git($"merge --no-ff --no-edit {GitRepository.Branch}");
-			Git($"tag {MajorMinorPatchVersion}");
-			Git($"push origin {MasterBranch} {MajorMinorPatchVersion}");
+			var credentials = new Credentials(GitHubActions.Instance.Token);
+			GitHubTasks.GitHubClient = new GitHubClient(
+				new ProductHeaderValue(nameof(NukeBuild)),
+				new InMemoryCredentialStore(credentials));
+
+			var newRelease = new NewRelease(MajorMinorPatchVersion)
+			{
+				Draft = true,
+				Prerelease = true,
+				Body = "Some notes here and there"
+			};
+			Log.Information("{release}", newRelease);
 		});
 }
