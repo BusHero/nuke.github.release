@@ -79,13 +79,14 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "Compile",
-              "EnsureChangelogFile",
               "Fetch",
               "Milestone",
               "Publish",
               "Release",
+              "RemoveAsset",
               "Restore",
               "ShowVersion",
               "Zip"
@@ -98,13 +99,14 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "Compile",
-              "EnsureChangelogFile",
               "Fetch",
               "Milestone",
               "Publish",
               "Release",
+              "RemoveAsset",
               "Restore",
               "ShowVersion",
               "Zip"

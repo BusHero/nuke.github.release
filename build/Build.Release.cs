@@ -5,6 +5,8 @@ using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
+using static Nuke.Common.ChangeLog.ChangelogTasks;
+using static Nuke.Common.IO.FileSystemTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
@@ -49,16 +51,22 @@ partial class Build
 
 	AbsolutePath ChangelogFile => RootDirectory / "CHANGELOG.md";
 
-	Target EnsureChangelogFile => _ => _
-		.Unlisted()
+	Target Changelog => _ => _
 		.Executes(() =>
 		{
-			using var _ = File.CreateText(ChangelogFile);
+			Touch(ChangelogFile);
+			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
+
+			Git($"add {ChangelogFile}");
+			Git($"""
+			commit -m "chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}"
+			""");
 		});
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
 		.DependsOn(Zip)
+		.DependsOn(Changelog)
 		.Triggers(Fetch)
 		.Executes(async () =>
 		{
@@ -97,6 +105,12 @@ partial class Build
 		.Executes(() =>
 		{
 			Git("fetch");
+		});
+
+	Target RemoveAsset => _ => _
+		.Executes(() =>
+		{
+			DeleteFile(Asset);
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)

@@ -49,7 +49,7 @@ partial class Build : NukeBuild
 	private string AssetChecksum { get; set; }
 
 	Target Zip => _ => _
-	 	.DependsOn(Publish)
+	 	.DependsOn(Publish, RemoveAsset)
 		.Executes(() =>
 		{
 			CompressZip(
