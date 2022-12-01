@@ -15,6 +15,7 @@ nuke-global.*
 
 # Mono auto generated files
 mono_crash.*
+*.zip
 
 # Build results
 [Dd]ebug/
