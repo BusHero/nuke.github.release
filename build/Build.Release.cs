@@ -61,6 +61,7 @@ partial class Build
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
 		.DependsOn(Zip)
+		.DependsOn(Changelog)
 		.Triggers(Fetch)
 		.Executes(async () =>
 		{
