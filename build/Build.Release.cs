@@ -56,13 +56,18 @@ partial class Build
 		{
 			Touch(ChangelogFile);
 			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
+
+			Git($"add {ChangelogFile}");
+			Git($"""
+			commit -m "chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}"
+			""");
 		});
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
 		.DependsOn(Zip)
 		.DependsOn(Changelog)
-		.Triggers(Fetch)
+		.Triggers(Fetch, RemoveAsset)
 		.Executes(async () =>
 		{
 			var credentials = new Credentials(GitHubToken);
@@ -100,6 +105,12 @@ partial class Build
 		.Executes(() =>
 		{
 			Git("fetch");
+		});
+
+	Target RemoveAsset => _ => _
+		.Executes(() =>
+		{
+			DeleteFile(Asset);
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
