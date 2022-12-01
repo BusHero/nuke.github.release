@@ -81,6 +81,8 @@
               "Milestone",
               "Release",
               "Restore",
+              "ShowActionInfo",
+              "ShowRepositoryInfo",
               "ShowVersion"
             ]
           }
@@ -97,6 +99,8 @@
               "Milestone",
               "Release",
               "Restore",
+              "ShowActionInfo",
+              "ShowRepositoryInfo",
               "ShowVersion"
             ]
           }
