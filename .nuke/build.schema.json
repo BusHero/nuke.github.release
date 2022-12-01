@@ -82,9 +82,11 @@
               "Clean",
               "Compile",
               "EnsureChangelogFile",
+              "Fetch",
               "Milestone",
               "Release",
               "Restore",
+              "ShowTags",
               "ShowVersion"
             ]
           }
@@ -98,9 +100,11 @@
               "Clean",
               "Compile",
               "EnsureChangelogFile",
+              "Fetch",
               "Milestone",
               "Release",
               "Restore",
+              "ShowTags",
               "ShowVersion"
             ]
           }

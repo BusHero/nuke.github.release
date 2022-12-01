@@ -4,6 +4,8 @@ using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
+using Nuke.Common.Tools.Git;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
@@ -57,6 +59,7 @@ partial class Build
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
+		.Triggers(Fetch)
 		.Executes(() =>
 		{
 			var credentials = new Credentials(GitHubToken);
@@ -74,7 +77,19 @@ partial class Build
 				"nuke.github.release",
 				release).Result;
 
-			// UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+		});
+
+	Target Fetch => _ => _
+		.Executes(() =>
+		{
+			Git("fetch");
+		});
+
+	Target ShowTags => _ => _
+		.Executes(() =>
+		{
+			Git("tag");
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
