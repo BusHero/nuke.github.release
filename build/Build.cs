@@ -45,7 +45,7 @@ partial class Build : NukeBuild
 				.SetOutput(RootDirectory / "publish"));
 		});
 
-	private readonly AbsolutePath Asset = RootDirectory / "publish.zip";
+	private readonly AbsolutePath Asset = RootDirectory / "App.Console.zip";
 	private string AssetChecksum { get; set; }
 
 	Target Zip => _ => _
