@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [vNext]
 
+## [0.1.26] / 2022-12-01
+- ensure release PR is created
+
 ## [0.1.25] / 2022-12-01
 - ensure release on master branch only
 
@@ -21,7 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.1.21] / 2022-08-19
 - Fixed logging configuration
 
-[vNext]: https://github.com/BusHero/nuke.github.release/compare/0.1.25...HEAD
+[vNext]: https://github.com/BusHero/nuke.github.release/compare/0.1.26...HEAD
+[0.1.26]: https://github.com/BusHero/nuke.github.release/compare/0.1.25...0.1.26
 [0.1.25]: https://github.com/BusHero/nuke.github.release/compare/0.1.24...0.1.25
 [0.1.24]: https://github.com/BusHero/nuke.github.release/compare/0.1.23...0.1.24
 [0.1.23]: https://github.com/BusHero/nuke.github.release/compare/0.1.22...0.1.23
