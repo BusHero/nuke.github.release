@@ -68,6 +68,7 @@ partial class Build
 		.DependsOn(Zip)
 		.DependsOn(Changelog)
 		.Triggers(Fetch)
+		.Requires(() => Repository.IsOnMainOrMasterBranch())
 		.Executes(async () =>
 		{
 			var credentials = new Credentials(GitHubToken);
