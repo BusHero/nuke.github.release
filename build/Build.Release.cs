@@ -5,7 +5,6 @@ using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
-using Nuke.Common.Tools.Git;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
