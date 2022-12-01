@@ -60,7 +60,7 @@ partial class Build
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
 		.Triggers(Fetch)
-		.Executes(() =>
+		.Executes(async () =>
 		{
 			var credentials = new Credentials(GitHubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
@@ -72,12 +72,20 @@ partial class Build
 				Prerelease = true,
 				Body = "Some body here and there"
 			};
-			var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(
+			var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(
 				"BusHero",
 				"nuke.github.release",
-				release).Result;
+				release);
 
 			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			await GitHubTasks.GitHubClient.Repository.Release.Edit(
+				"BusHero",
+				"nuke.github.release",
+				createdRelease.Id,
+				new ReleaseUpdate
+				{
+					Draft = false
+				});
 		});
 
 	Target Fetch => _ => _
