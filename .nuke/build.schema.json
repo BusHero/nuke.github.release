@@ -86,7 +86,6 @@
               "Milestone",
               "Release",
               "Restore",
-              "ShowTags",
               "ShowVersion"
             ]
           }
@@ -104,7 +103,6 @@
               "Milestone",
               "Release",
               "Restore",
-              "ShowTags",
               "ShowVersion"
             ]
           }

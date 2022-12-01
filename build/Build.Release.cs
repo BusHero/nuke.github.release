@@ -20,7 +20,7 @@ partial class Build
 
 	[GitRepository] GitRepository Repository;
 
-	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance.Token;
+	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance?.Token;
 
 	GitHubActions GitHubActions => GitHubActions.Instance;
 
