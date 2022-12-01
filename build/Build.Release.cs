@@ -12,6 +12,7 @@ using System.IO;
 using Nuke.Common.CI.GitHubActions;
 using Octokit;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Threading;
 
 partial class Build
 {
@@ -51,10 +52,13 @@ partial class Build
 
 	AbsolutePath ChangelogFile => RootDirectory / "CHANGELOG.md";
 
+	private string ReleaseBranch => $"release/{MajorMinorPatchVersion}";
+
 	Target EnsureReleaseBranch => _ => _
 		.Executes(() =>
 		{
-			Git($"switch -c release/{MajorMinorPatchVersion}");
+			Git($"switch -c {ReleaseBranch}");
+			Thread.Sleep(1000);
 		});
 
 	Target Changelog => _ => _
