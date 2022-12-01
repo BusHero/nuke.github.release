@@ -51,7 +51,14 @@ partial class Build
 
 	AbsolutePath ChangelogFile => RootDirectory / "CHANGELOG.md";
 
+	Target EnsureReleaseBranch => _ => _
+		.Executes(() =>
+		{
+			Git($"switch -c release/{MajorMinorPatchVersion}");
+		});
+
 	Target Changelog => _ => _
+		.DependsOn(EnsureReleaseBranch)
 		.Executes(() =>
 		{
 			Touch(ChangelogFile);
@@ -65,8 +72,7 @@ partial class Build
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
-		.DependsOn(Zip)
-		.DependsOn(Changelog)
+		.DependsOn(Zip, Changelog, EnsureReleaseBranch)
 		.Triggers(Fetch)
 		.Requires(() => Repository.IsOnMainOrMasterBranch())
 		.Executes(async () =>
