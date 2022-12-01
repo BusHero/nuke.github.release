@@ -1,6 +1,11 @@
 using Nuke.Common;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
+using static Nuke.Common.IO.CompressionTasks;
 using Nuke.Common.Tools.DotNet;
+using System.IO.Compression;
+using Nuke.Common.Utilities;
+using System.IO;
+using Nuke.Common.IO;
 
 partial class Build : NukeBuild
 {
@@ -37,6 +42,19 @@ partial class Build : NukeBuild
 		{
 			DotNetPublish(_ => _
 				.SetProject(RootDirectory / "App.Console")
-				.SetOutput("publish"));
+				.SetOutput(RootDirectory / "publish"));
+		});
+
+	private readonly AbsolutePath Asset = RootDirectory / "publish.zip";
+
+	Target Zip => _ => _
+	 	.DependsOn(Publish)
+		.Executes(() =>
+		{
+			CompressZip(
+				RootDirectory / "publish",
+				Asset,
+				compressionLevel: CompressionLevel.SmallestSize,
+				fileMode: FileMode.CreateNew);
 		});
 }

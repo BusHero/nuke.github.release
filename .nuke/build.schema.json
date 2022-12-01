@@ -87,7 +87,8 @@
               "Publish",
               "Release",
               "Restore",
-              "ShowVersion"
+              "ShowVersion",
+              "Zip"
             ]
           }
         },
@@ -105,7 +106,8 @@
               "Publish",
               "Release",
               "Restore",
-              "ShowVersion"
+              "ShowVersion",
+              "Zip"
             ]
           }
         },

@@ -58,6 +58,7 @@ partial class Build
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
+		.DependsOn(Zip)
 		.Triggers(Fetch)
 		.Executes(async () =>
 		{
@@ -76,7 +77,7 @@ partial class Build
 				"nuke.github.release",
 				release);
 
-			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			UploadReleaseAssetToGithub(createdRelease, Asset);
 			await GitHubTasks.GitHubClient.Repository.Release.Edit(
 				"BusHero",
 				"nuke.github.release",
