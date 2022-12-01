@@ -70,7 +70,12 @@ partial class Build
 			{
 				Name = $"Release {MajorMinorPatchVersion}",
 				Draft = true,
-				Body = "Some body here and there"
+				Body = $"""
+					# This is the new release!
+
+					Assets:
+					{Path.GetFileName(Asset)} - {AssetChecksum}
+					"""
 			};
 			var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(
 				"BusHero",

@@ -1,9 +1,9 @@
 using Nuke.Common;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 using static Nuke.Common.IO.CompressionTasks;
+using static Nuke.Common.IO.FileSystemTasks;
 using Nuke.Common.Tools.DotNet;
 using System.IO.Compression;
-using Nuke.Common.Utilities;
 using System.IO;
 using Nuke.Common.IO;
 
@@ -46,6 +46,7 @@ partial class Build : NukeBuild
 		});
 
 	private readonly AbsolutePath Asset = RootDirectory / "publish.zip";
+	private string AssetChecksum { get; set; }
 
 	Target Zip => _ => _
 	 	.DependsOn(Publish)
@@ -56,5 +57,6 @@ partial class Build : NukeBuild
 				Asset,
 				compressionLevel: CompressionLevel.SmallestSize,
 				fileMode: FileMode.CreateNew);
+			AssetChecksum = GetFileHash(Asset);
 		});
 }
