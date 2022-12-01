@@ -9,6 +9,7 @@ using System.IO;
 using Nuke.Common.CI.GitHubActions;
 using System.Net.Http.Headers;
 using Octokit;
+using Microsoft.AspNetCore.StaticFiles;
 
 partial class Build
 {
@@ -70,5 +71,27 @@ partial class Build
 				GitHubActions.RepositoryOwner,
 				"nuke.github.release",
 				release).Result;
+
+			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
 		});
+
+	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
+	{
+		if (!FileSystemTasks.FileExists(asset))
+			return;
+
+		if (!new FileExtensionContentTypeProvider()
+			.TryGetContentType(asset, out var assetContentType))
+		{
+			assetContentType = "application/x-binary";
+		}
+
+		var releaseUpload = new ReleaseAssetUpload
+		{
+			ContentType = assetContentType,
+			FileName = Path.GetFileName(asset),
+			RawData = File.OpenRead(asset)
+		};
+		GitHubTasks.GitHubClient.Repository.Release.UploadAsset(release, releaseUpload);
+	}
 }
