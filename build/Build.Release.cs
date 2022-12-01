@@ -93,12 +93,6 @@ partial class Build
 			Git("fetch");
 		});
 
-	Target ShowTags => _ => _
-		.Executes(() =>
-		{
-			Git("tag");
-		});
-
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
 	{
 		if (!FileSystemTasks.FileExists(asset))
