@@ -21,7 +21,7 @@ partial class Build
 
 	[GitRepository] GitRepository Repository;
 
-	[Parameter, Secret] readonly string GitHubToken;
+	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance.Token;
 
 	GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -69,7 +69,7 @@ partial class Build
 			var release = new NewRelease(MajorMinorPatchVersion)
 			{
 				Name = $"Release {MajorMinorPatchVersion}",
-				Prerelease = true,
+				Draft = true,
 				Body = "Some body here and there"
 			};
 			var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(
@@ -84,7 +84,7 @@ partial class Build
 				createdRelease.Id,
 				new ReleaseUpdate
 				{
-					Draft = false
+					Draft = false,
 				});
 		});
 
