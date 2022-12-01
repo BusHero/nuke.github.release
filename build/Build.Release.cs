@@ -67,7 +67,7 @@ partial class Build
 		.Requires(() => GitHubToken)
 		.DependsOn(Zip)
 		.DependsOn(Changelog)
-		.Triggers(Fetch, RemoveAsset)
+		.Triggers(Fetch)
 		.Executes(async () =>
 		{
 			var credentials = new Credentials(GitHubToken);
