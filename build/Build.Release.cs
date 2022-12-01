@@ -4,10 +4,10 @@ using Nuke.Common.IO;
 using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
+using static Nuke.Common.Tools.Git.GitTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
-using System.Net.Http.Headers;
 using Octokit;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -19,6 +19,8 @@ partial class Build
 	[GitVersion] GitVersion GitVersion;
 
 	[GitRepository] GitRepository Repository;
+
+	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance.Token;
 
 	GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -55,24 +57,46 @@ partial class Build
 		});
 
 	Target Release => _ => _
-		.Executes(() =>
+		.Requires(() => GitHubToken)
+		.Triggers(Fetch)
+		.Executes(async () =>
 		{
-			var credentials = new Credentials(GitHubActions.Token);
+			var credentials = new Credentials(GitHubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
 				new Octokit.ProductHeaderValue(nameof(NukeBuild)),
 				new Octokit.Internal.InMemoryCredentialStore(credentials));
 			var release = new NewRelease(MajorMinorPatchVersion)
 			{
 				Name = $"Release {MajorMinorPatchVersion}",
-				Prerelease = true,
+				Draft = true,
 				Body = "Some body here and there"
 			};
-			var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(
-				GitHubActions.RepositoryOwner,
+			var createdRelease = await GitHubTasks.GitHubClient.Repository.Release.Create(
+				"BusHero",
 				"nuke.github.release",
-				release).Result;
+				release);
 
 			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			await GitHubTasks.GitHubClient.Repository.Release.Edit(
+				"BusHero",
+				"nuke.github.release",
+				createdRelease.Id,
+				new ReleaseUpdate
+				{
+					Draft = false,
+				});
+		});
+
+	Target Fetch => _ => _
+		.Executes(() =>
+		{
+			Git("fetch");
+		});
+
+	Target ShowTags => _ => _
+		.Executes(() =>
+		{
+			Git("tag");
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
