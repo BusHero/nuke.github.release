@@ -7,7 +7,6 @@ using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
-using System.Net.Http.Headers;
 using Octokit;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -19,6 +18,8 @@ partial class Build
 	[GitVersion] GitVersion GitVersion;
 
 	[GitRepository] GitRepository Repository;
+
+	[Parameter, Secret] readonly string GitHubToken;
 
 	GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -55,9 +56,10 @@ partial class Build
 		});
 
 	Target Release => _ => _
+		.Requires(() => GitHubToken)
 		.Executes(() =>
 		{
-			var credentials = new Credentials(GitHubActions.Token);
+			var credentials = new Credentials(GitHubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
 				new Octokit.ProductHeaderValue(nameof(NukeBuild)),
 				new Octokit.Internal.InMemoryCredentialStore(credentials));
@@ -68,11 +70,11 @@ partial class Build
 				Body = "Some body here and there"
 			};
 			var createdRelease = GitHubTasks.GitHubClient.Repository.Release.Create(
-				GitHubActions.RepositoryOwner,
+				"BusHero",
 				"nuke.github.release",
 				release).Result;
 
-			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			// UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)
