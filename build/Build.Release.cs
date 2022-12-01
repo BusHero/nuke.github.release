@@ -20,7 +20,7 @@ partial class Build
 
 	[GitRepository] GitRepository Repository;
 
-	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance.Token;
+	[Parameter, Secret] readonly string GitHubToken = GitHubActions.Instance?.Token;
 
 	GitHubActions GitHubActions => GitHubActions.Instance;
 
@@ -58,6 +58,7 @@ partial class Build
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
+		.DependsOn(Zip)
 		.Triggers(Fetch)
 		.Executes(async () =>
 		{
@@ -76,7 +77,7 @@ partial class Build
 				"nuke.github.release",
 				release);
 
-			UploadReleaseAssetToGithub(createdRelease, RootDirectory / "file.txt");
+			UploadReleaseAssetToGithub(createdRelease, Asset);
 			await GitHubTasks.GitHubClient.Repository.Release.Edit(
 				"BusHero",
 				"nuke.github.release",
@@ -91,12 +92,6 @@ partial class Build
 		.Executes(() =>
 		{
 			Git("fetch");
-		});
-
-	Target ShowTags => _ => _
-		.Executes(() =>
-		{
-			Git("tag");
 		});
 
 	private void UploadReleaseAssetToGithub(Release release, AbsolutePath asset)

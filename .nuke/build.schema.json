@@ -84,10 +84,11 @@
               "EnsureChangelogFile",
               "Fetch",
               "Milestone",
+              "Publish",
               "Release",
               "Restore",
-              "ShowTags",
-              "ShowVersion"
+              "ShowVersion",
+              "Zip"
             ]
           }
         },
@@ -102,10 +103,11 @@
               "EnsureChangelogFile",
               "Fetch",
               "Milestone",
+              "Publish",
               "Release",
               "Restore",
-              "ShowTags",
-              "ShowVersion"
+              "ShowVersion",
+              "Zip"
             ]
           }
         },
