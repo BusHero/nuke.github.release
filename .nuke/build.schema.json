@@ -79,9 +79,9 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "Compile",
-              "EnsureChangelogFile",
               "Fetch",
               "Milestone",
               "Publish",
@@ -98,9 +98,9 @@
           "items": {
             "type": "string",
             "enum": [
+              "Changelog",
               "Clean",
               "Compile",
-              "EnsureChangelogFile",
               "Fetch",
               "Milestone",
               "Publish",

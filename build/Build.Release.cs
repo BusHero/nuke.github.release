@@ -5,6 +5,8 @@ using Nuke.Common.Tools.GitHub;
 using Nuke.Common.Tools.GitVersion;
 using static Nuke.Common.Tools.GitHub.GitHubTasks;
 using static Nuke.Common.Tools.Git.GitTasks;
+using static Nuke.Common.ChangeLog.ChangelogTasks;
+using static Nuke.Common.IO.FileSystemTasks;
 using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
@@ -49,11 +51,11 @@ partial class Build
 
 	AbsolutePath ChangelogFile => RootDirectory / "CHANGELOG.md";
 
-	Target EnsureChangelogFile => _ => _
-		.Unlisted()
+	Target Changelog => _ => _
 		.Executes(() =>
 		{
-			using var _ = File.CreateText(ChangelogFile);
+			Touch(ChangelogFile);
+			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
 		});
 
 	Target Release => _ => _
