@@ -31,4 +31,12 @@ partial class Build : NukeBuild
 			DotNetBuild(_ => _
 				.SetProjectFile(RootDirectory / "App.Console" / "App.Console.csproj"));
 		});
+
+	Target Publish => _ => _
+		.Executes(() =>
+		{
+			DotNetPublish(_ => _
+				.SetProject(RootDirectory / "App.Console")
+				.SetOutput("publish"));
+		});
 }

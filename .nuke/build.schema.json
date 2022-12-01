@@ -84,6 +84,7 @@
               "EnsureChangelogFile",
               "Fetch",
               "Milestone",
+              "Publish",
               "Release",
               "Restore",
               "ShowVersion"
@@ -101,6 +102,7 @@
               "EnsureChangelogFile",
               "Fetch",
               "Milestone",
+              "Publish",
               "Release",
               "Restore",
               "ShowVersion"
