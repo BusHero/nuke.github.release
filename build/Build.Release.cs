@@ -72,15 +72,26 @@ partial class Build
 			Git($"add {ChangelogFile}");
 			Git($""" commit -m "{title}" """);
 			Git("push");
-			var newPr = new NewPullRequest(
+			var pr = await GitHubTasks.GitHubClient.PullRequest.Create(
+				"BusHero",
+				"nuke.github.release",
+				new NewPullRequest(
 				title,
 				$"BusHero:{ReleaseBranch}",
 				"master"
-			);
-			await GitHubTasks.GitHubClient.PullRequest.Create(
+			));
+			await GitHubTasks.GitHubClient.PullRequest.Merge(
 				"BusHero",
 				"nuke.github.release",
-				newPr);
+				pr.Number,
+				new MergePullRequest
+				{
+					MergeMethod = PullRequestMergeMethod.Squash
+				});
+			Git("switch master");
+			Git("pull");
+			Git($"push origin --delete {ReleaseBranch}");
+			Git($"branch -D {ReleaseBranch}");
 		});
 
 	Target EnsureGithubClient => _ => _
