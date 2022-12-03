@@ -81,7 +81,7 @@ partial class Build
 					["GIT_AUTHOR_NAME"] = "changelog task",
 					["GIT_AUTHOR_EMAIL "] = "changelog@task.com",
 				});
-			Git("push");
+			Git($"push --set-upstream origin {ReleaseBranch}");
 			var pr = await GitHubTasks.GitHubClient.PullRequest.Create(
 				"BusHero",
 				"nuke.github.release",
