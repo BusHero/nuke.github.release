@@ -58,33 +58,59 @@ partial class Build
 		.Executes(() =>
 		{
 			Git($"switch -c {ReleaseBranch}");
-			Thread.Sleep(1000);
 		});
 
-	Target Changelog => _ => _
-		.DependsOn(EnsureReleaseBranch)
-		.Executes(() =>
-		{
-			Touch(ChangelogFile);
-			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
-
-			Git($"add {ChangelogFile}");
-			Git($"""
-			commit -m "chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}"
-			""");
-		});
-
-	Target Release => _ => _
+	Target EnsureGithubClient => _ => _
 		.Requires(() => GitHubToken)
-		.DependsOn(Zip, Changelog, EnsureReleaseBranch)
-		.Triggers(Fetch)
-		.Requires(() => Repository.IsOnMainOrMasterBranch())
-		.Executes(async () =>
+		.Executes(() =>
 		{
 			var credentials = new Credentials(GitHubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
 				new Octokit.ProductHeaderValue(nameof(NukeBuild)),
 				new Octokit.Internal.InMemoryCredentialStore(credentials));
+		});
+
+	Target Changelog => _ => _
+		.Requires(() => Repository.IsOnMainOrMasterBranch())
+		.DependsOn(EnsureReleaseBranch)
+		.Executes(() =>
+		{
+			Touch(ChangelogFile);
+			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
+			var title = $"chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}";
+
+			Git($"add {ChangelogFile}");
+			Git($"""
+			commit -m "{title}"
+			""");
+		});
+
+	Target CreateReleasePR => _ => _
+		.Requires(() => GitHubToken)
+		.DependsOn(EnsureGithubClient)
+		.Requires(() => !Repository.IsOnMasterBranch())
+		.Executes(async () =>
+		{
+			Git("push");
+			var title = $"chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}";
+			var pr = new NewPullRequest(
+				title,
+				$"BusHero:{Repository.Branch}",
+				"master"
+			);
+			await GitHubTasks.GitHubClient.PullRequest.Create(
+				"BusHero",
+				"nuke.github.release",
+				pr);
+		});
+
+	Target Release => _ => _
+		.Requires(() => GitHubToken)
+		.Requires(() => Repository.IsOnMainOrMasterBranch())
+		.DependsOn(Zip, Changelog, EnsureReleaseBranch, EnsureGithubClient)
+		.Triggers(Fetch)
+		.Executes(async () =>
+		{
 			var release = new NewRelease(MajorMinorPatchVersion)
 			{
 				Name = $"Release {MajorMinorPatchVersion}",
