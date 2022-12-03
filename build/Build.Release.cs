@@ -99,9 +99,9 @@ partial class Build
 					MergeMethod = PullRequestMergeMethod.Squash
 				});
 			Git("switch master");
-			Git("pull");
 			Git($"push origin --delete {ReleaseBranch}");
 			Git($"branch -D {ReleaseBranch}");
+			Git("pull");
 		});
 
 	Target EnsureGithubClient => _ => _
