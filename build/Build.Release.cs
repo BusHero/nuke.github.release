@@ -13,6 +13,7 @@ using Nuke.Common.CI.GitHubActions;
 using Octokit;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Threading;
+using System.Collections.Generic;
 
 partial class Build
 {
@@ -60,6 +61,7 @@ partial class Build
 			Thread.Sleep(1000);
 		});
 
+
 	Target Changelog => _ => _
 		.Unlisted()
 		.DependsOn(EnsureReleaseBranch, EnsureGithubClient)
@@ -71,7 +73,14 @@ partial class Build
 			var title = $"chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}";
 			Git($"switch -c {ReleaseBranch}");
 			Git($"add {ChangelogFile}");
-			Git($""" commit -m "{title}" """);
+			Git($""" commit -m "{title}" """,
+				environmentVariables: new Dictionary<string, string>()
+				{
+					["GIT_COMMITTER_NAME"] = "changelog task",
+					["GIT_COMMITTER_EMAIL"] = "changelog@task.com",
+					["GIT_AUTHOR_NAME"] = "changelog task",
+					["GIT_AUTHOR_EMAIL "] = "changelog@task.com",
+				});
 			Git("push");
 			var pr = await GitHubTasks.GitHubClient.PullRequest.Create(
 				"BusHero",

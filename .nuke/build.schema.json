@@ -18,6 +18,18 @@
           "type": "boolean",
           "description": "Indicates to continue a previously failed build attempt"
         },
+        "gitAuthorEmail": {
+          "type": "string"
+        },
+        "gitAuthorName": {
+          "type": "string"
+        },
+        "gitCommiterEmail": {
+          "type": "string"
+        },
+        "gitCommiterName": {
+          "type": "string"
+        },
         "GitHubToken": {
           "type": "string",
           "default": "Secrets must be entered via 'nuke :secrets [profile]'"
@@ -85,6 +97,7 @@
               "EnsureGithubClient",
               "EnsureReleaseBranch",
               "Fetch",
+              "Foo",
               "Milestone",
               "Publish",
               "Release",
@@ -107,6 +120,7 @@
               "EnsureGithubClient",
               "EnsureReleaseBranch",
               "Fetch",
+              "Foo",
               "Milestone",
               "Publish",
               "Release",
