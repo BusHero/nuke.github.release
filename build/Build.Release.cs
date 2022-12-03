@@ -57,21 +57,30 @@ partial class Build
 	Target EnsureReleaseBranch => _ => _
 		.Executes(() =>
 		{
-			Git($"switch -c {ReleaseBranch}");
 			Thread.Sleep(1000);
 		});
 
 	Target Changelog => _ => _
-		.DependsOn(EnsureReleaseBranch)
-		.Executes(() =>
+		.DependsOn(EnsureReleaseBranch, EnsureGithubClient)
+		.Executes(async () =>
 		{
 			Touch(ChangelogFile);
 			FinalizeChangelog(ChangelogFile, MajorMinorPatchVersion, Repository);
 
+			var title = $"chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}";
+			Git($"switch -c {ReleaseBranch}");
 			Git($"add {ChangelogFile}");
-			Git($"""
-			commit -m "chore: Finalize {Path.GetFileName(ChangelogFile)} for {MajorMinorPatchVersion}"
-			""");
+			Git($""" commit -m "{title}" """);
+			Git("push");
+			var newPr = new NewPullRequest(
+				title,
+				$"BusHero:{ReleaseBranch}",
+				"master"
+			);
+			await GitHubTasks.GitHubClient.PullRequest.Create(
+				"BusHero",
+				"nuke.github.release",
+				newPr);
 		});
 
 	Target EnsureGithubClient => _ => _
