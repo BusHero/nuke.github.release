@@ -11,8 +11,6 @@ using Serilog;
 using System.IO;
 using Nuke.Common.CI.GitHubActions;
 using Octokit;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Threading;
 using System.Collections.Generic;
 
 partial class Build
@@ -158,7 +156,7 @@ partial class Build
 		if (!FileSystemTasks.FileExists(asset))
 			return;
 
-		if (!new FileExtensionContentTypeProvider()
+		if (!FileExtensionContentTypeProvider
 			.TryGetContentType(asset, out var assetContentType))
 		{
 			assetContentType = "application/x-binary";
