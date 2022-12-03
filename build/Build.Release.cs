@@ -74,17 +74,23 @@ partial class Build
 			""");
 		});
 
-	Target Release => _ => _
+	Target EnsureGithubClient => _ => _
 		.Requires(() => GitHubToken)
-		.DependsOn(Zip, Changelog, EnsureReleaseBranch)
-		.Triggers(Fetch)
-		.Requires(() => Repository.IsOnMainOrMasterBranch())
-		.Executes(async () =>
+		.Executes(() =>
 		{
 			var credentials = new Credentials(GitHubToken);
 			GitHubTasks.GitHubClient = new GitHubClient(
 				new Octokit.ProductHeaderValue(nameof(NukeBuild)),
 				new Octokit.Internal.InMemoryCredentialStore(credentials));
+		});
+
+	Target Release => _ => _
+		.Requires(() => GitHubToken)
+		.DependsOn(Zip, Changelog, EnsureReleaseBranch, EnsureGithubClient)
+		.Triggers(Fetch)
+		.Requires(() => Repository.IsOnMainOrMasterBranch())
+		.Executes(async () =>
+		{
 			var release = new NewRelease(MajorMinorPatchVersion)
 			{
 				Name = $"Release {MajorMinorPatchVersion}",
