@@ -55,16 +55,9 @@ partial class Build
 
 	private string ReleaseBranch => $"release/{MajorMinorPatchVersion}";
 
-	Target EnsureReleaseBranch => _ => _
-		.Executes(() =>
-		{
-			Thread.Sleep(1000);
-		});
-
-
 	Target Changelog => _ => _
 		.Unlisted()
-		.DependsOn(EnsureReleaseBranch, EnsureGithubClient)
+		.DependsOn(EnsureGithubClient)
 		.Executes(async () =>
 		{
 			Touch(ChangelogFile);
@@ -116,7 +109,7 @@ partial class Build
 
 	Target Release => _ => _
 		.Requires(() => GitHubToken)
-		.DependsOn(Zip, Changelog, EnsureReleaseBranch, EnsureGithubClient)
+		.DependsOn(Zip, Changelog, EnsureGithubClient)
 		.Triggers(Fetch)
 		.Requires(() => Repository.IsOnMainOrMasterBranch())
 		.Executes(async () =>
