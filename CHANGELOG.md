@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [vNext]
+
+## [0.1.31] / 2022-12-03
 - automate the generation of Changelogs
 
 ## [0.1.30] / 2022-12-03
@@ -29,6 +31,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed logging configuration
 
 [vNext]: https://github.com/BusHero/nuke.github.release/compare/0.1.31...HEAD
+[0.1.31]: https://github.com/BusHero/nuke.github.release/compare/0.1.30...0.1.31
 [0.1.30]: https://github.com/BusHero/nuke.github.release/compare/0.1.29...0.1.30
 [0.1.29]: https://github.com/BusHero/nuke.github.release/compare/0.1.25...0.1.29
 [0.1.25]: https://github.com/BusHero/nuke.github.release/compare/0.1.24...0.1.25
@@ -36,3 +39,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [0.1.23]: https://github.com/BusHero/nuke.github.release/compare/0.1.22...0.1.23
 [0.1.22]: https://github.com/BusHero/nuke.github.release/compare/0.1.21...0.1.22
 [0.1.21]: https://github.com/BusHero/nuke.github.release/tree/0.1.21
+
