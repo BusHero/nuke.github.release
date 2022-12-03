@@ -61,6 +61,7 @@ partial class Build
 		});
 
 	Target Changelog => _ => _
+		.Unlisted()
 		.DependsOn(EnsureReleaseBranch, EnsureGithubClient)
 		.Executes(async () =>
 		{
