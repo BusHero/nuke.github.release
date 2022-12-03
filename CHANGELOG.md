@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [vNext]
 
 ## [0.1.31] / 2022-12-03
-- add more time to wait till the release branch is available2
+- add more time to wait till the release branch is available3
 
 ## [0.1.30] / 2022-12-03
 - add more time to wait till the release branch is available
