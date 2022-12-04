@@ -2,6 +2,7 @@ using Nuke.Common;
 using Nuke.Common.Execution;
 using Serilog;
 using static Nuke.Common.Tools.PowerShell.PowerShellTasks;
+using static PowerShellCoreTasks;
 using Nuke.Common.Tools.PowerShell;
 using Nuke.Common.Tooling;
 
@@ -10,11 +11,8 @@ partial class Build
 	Target ExecuteTests => _ => _
 		.Executes(() =>
 		{
-			PowerShell(_ => _
-				.SetFile(RootDirectory / "runners" / "tests.runner.ps1")
-				.SetNoProfile(true)
-				.SetNoLogo(true)
-				.SetProcessToolPath("pwsh"));
+			PowerShellCore(_ => _
+				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
 		});
 
 	Target ExecuteTestsFixLogging => _ => _
@@ -30,11 +28,8 @@ partial class Build
 				.ConfigureLevel()
 				.ConfigureFilter()
 				.CreateLogger();
-			PowerShell(_ => _
-				.SetFile(RootDirectory / "runners" / "tests.runner.ps1")
-				.SetNoProfile(true)
-				.SetNoLogo(true)
-				.SetProcessToolPath("pwsh"));
+			PowerShellCore(_ => _
+				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
 		});
 
 	Target Logs => _ => _
