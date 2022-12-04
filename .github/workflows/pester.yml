@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   invoke-pester-1:
-    name: Install from console
+    name: Invoke-Pester .\tests\
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -13,30 +13,8 @@ jobs:
         run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
         run: Invoke-Pester .\tests\
-  invoke-pester-2:
-    name: Install from console
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install Pester
-        run: Install-Module -Name Pester -Force
-      - name: Invoke-Pester
-        run: Invoke-Pester .\tests\ -CI
-  invoke-pester-configuration:
-    name: Run Pester from file
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install Pester
-        run: Install-Module -Name Pester -Force
-      - name: Invoke-Pester
-        run: Invoke-Pester .\tests\ -CI
   runner:
-    name: Run Pester from file
+    name: .\runners\tests.runner.ps1
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
@@ -45,4 +23,4 @@ jobs:
       - name: Install Pester
         run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
-        run: .\tests\tests.runner.ps1
+        run: .\runners\tests.runner.ps1
