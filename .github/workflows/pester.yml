@@ -25,20 +25,24 @@ jobs:
       - name: Invoke-Pester
         run: .\runners\tests.runner.ps1
   nuke-with-logging:
-    name: .\runners\tests.runner.ps1
+    name: ./build.sh ExecuteTestsFixLogging
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Milestone
+      - name: Install Pester
+        run: Install-Module -Name Pester -Force
+      - name: Invoke-Pester
         run: ./build.sh ExecuteTestsFixLogging
   nuke-without-logging:
-    name: ./build.sh
+    name: ./build.sh ExecuteTests
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Run Invoke-Pester
+      - name: Install Pester
+        run: Install-Module -Name Pester -Force
+      - name: Invoke-Pester
         run: ./build.sh ExecuteTests
