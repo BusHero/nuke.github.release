@@ -32,13 +32,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Milestone
-        run: ./build.sh ShowVersion
+        run: ./build.sh ExecuteTestsFixLogging
   nuke-without-logging:
-    name: .\runners\tests.runner.ps1
+    name: ./build.sh
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Milestone
-        run: ./build.sh ShowVersion
+      - name: Run Invoke-Pester
+        run: ./build.sh ExecuteTests
