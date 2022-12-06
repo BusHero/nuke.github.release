@@ -12,7 +12,7 @@ jobs:
       # - name: Install Pester
       #   run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
-        run: ./build.sh ExecuteTestsFixLogging
+        run: ./build.ps1 ExecuteTestsFixLogging
   nuke-without-logging:
     name: ./build.sh ExecuteTests
     runs-on: windows-latest
@@ -23,4 +23,4 @@ jobs:
       # - name: Install Pester
       #   run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
-        run: ./build.sh ExecuteTests
+        run: ./build.ps1 ExecuteTests
