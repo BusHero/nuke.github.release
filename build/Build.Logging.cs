@@ -11,7 +11,7 @@ partial class Build
 		.Executes(() =>
 		{
 			PowerShell(settings => settings
-				// .SetProcessToolPath("pwsh")
+				.SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
@@ -20,19 +20,18 @@ partial class Build
 	Target ExecuteTestsFixLogging => _ => _
 		.Executes(() =>
 		{
-			// var currentLogger = Log.Logger;
-			// Log.Logger = new LoggerConfiguration()
-			// 	.WriteTo.Console(
-			// 		outputTemplate: "{Message:l}{NewLine}{Exception}",
-			// 		applyThemeToRedirectedOutput: true)
-			// 	.ConfigureInMemory(this)
-			// 	.ConfigureFiles(this)
-			// 	.ConfigureLevel()
-			// 	.ConfigureFilter()
-			// 	.CreateLogger();
-			Assert.Fail("Please fail");
+			var currentLogger = Log.Logger;
+			Log.Logger = new LoggerConfiguration()
+				.WriteTo.Console(
+					outputTemplate: "{Message:l}{NewLine}{Exception}",
+					applyThemeToRedirectedOutput: true)
+				.ConfigureInMemory(this)
+				.ConfigureFiles(this)
+				.ConfigureLevel()
+				.ConfigureFilter()
+				.CreateLogger();
 			PowerShell(settings => settings
-				// .SetProcessToolPath("pwsh")
+				.SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
