@@ -3,24 +3,24 @@ on: pull_request
 
 jobs:
   nuke-with-logging:
-    name: ./build.sh ExecuteTestsFixLogging
+    name: ./build.ps1 ExecuteTestsFixLogging
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: Install Pester
-      #   run: Install-Module -Name Pester -Force
+      - name: Install Pester
+        run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
         run: ./build.ps1 ExecuteTestsFixLogging
   nuke-without-logging:
-    name: ./build.sh ExecuteTests
+    name: ./build.ps1 ExecuteTests
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: Install Pester
-      #   run: Install-Module -Name Pester -Force
+      - name: Install Pester
+        run: Install-Module -Name Pester -Force
       - name: Invoke-Pester
         run: ./build.ps1 ExecuteTests
