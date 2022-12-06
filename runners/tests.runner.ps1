@@ -10,4 +10,5 @@
 # $configuration.Output.CIFormat = 'GithubActions'
 # $psEditor = 'fuck'
 # Invoke-Pester -Configuration $configuration
+Write-Host 'Some result here and there'
 exit 1
