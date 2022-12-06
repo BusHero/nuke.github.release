@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2022-12-04" time="14:44:58">
+  <environment platform="Microsoft Windows 11 Education|C:\WINDOWS|\Device\Harddisk0\Partition4" nunit-version="2.5.8.0" clr-version="Unknown" user="Petru" machine-name="LAPTOP-GP17PKP5" cwd="C:\Users\Petru\projects\csharp\playground\nuke.github.release" user-domain="LAPTOP-GP17PKP5" os-version="10.0.22623" />
+  <culture-info current-culture="de-DE" current-uiculture="de-DE" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Failure" success="False" time="0.0502" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Users\Petru\projects\csharp\playground\nuke.github.release\tests\Sample1.Tests.ps1" executed="True" result="Failure" success="False" time="0.0502" asserts="0" description="C:\Users\Petru\projects\csharp\playground\nuke.github.release\tests\Sample1.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Sample Tests 1" executed="True" result="Failure" success="False" time="0.0125" asserts="0" description="Sample Tests 1">
+            <results>
+              <test-suite type="TestFixture" name="Sample Tests 1.block 1" executed="True" result="Failure" success="False" time="0.0102" asserts="0" description="Sample Tests 1.block 1">
+                <results>
+                  <test-case description="It 1 - success" name="Sample Tests 1.block 1.It 1 - success" time="0.0014" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="It 2 - fail" name="Sample Tests 1.block 1.It 2 - fail" time="0.0066" asserts="0" success="False" result="Failure" executed="True">
+                    <failure>
+                      <message>Expected $false, because Test should fail, but got $true.</message>
+                      <stack-trace>at $true | Should -BeFalse -Because 'Test should fail', C:\Users\Petru\projects\csharp\playground\nuke.github.release\tests\Sample1.Tests.ps1:8
+at &lt;ScriptBlock&gt;, C:\Users\Petru\projects\csharp\playground\nuke.github.release\tests\Sample1.Tests.ps1:8</stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
