@@ -8,5 +8,10 @@ $configuration.Run.Path = "${PSScriptRoot}\..\tests"
 $configuration.Run.Exit = $true
 $configuration.Output.CIFormat = 'GithubActions'
 $psEditor = 'fuck'
-Invoke-Pester -Configuration $configuration
-exit 1
+try {
+	Write-Host '::group::{fuck you, and your mom}'
+	Invoke-Pester -Configuration $configuration
+}
+finally {
+	Write-Host '::endgroup::'
+}
