@@ -11,7 +11,7 @@ partial class Build
 		.Executes(() =>
 		{
 			PowerShell(settings => settings
-				.SetProcessToolPath("pwsh")
+				// .SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
@@ -31,7 +31,7 @@ partial class Build
 			// 	.ConfigureFilter()
 			// 	.CreateLogger();
 			PowerShell(settings => settings
-				.SetProcessToolPath("pwsh")
+				// .SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
