@@ -10,7 +10,7 @@ partial class Build
 	Target ExecuteTests => _ => _
 		.Executes(() =>
 		{
-			PowerShell(settings => settings
+			return PowerShell(settings => settings
 				// .SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
