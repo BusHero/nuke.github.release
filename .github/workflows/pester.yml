@@ -2,28 +2,6 @@ name: pester
 on: pull_request
 
 jobs:
-  invoke-pester-1:
-    name: Invoke-Pester .\tests\
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install Pester
-        run: Install-Module -Name Pester -Force
-      - name: Invoke-Pester
-        run: Invoke-Pester .\tests\
-  runner:
-    name: .\runners\tests.runner.ps1
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install Pester
-        run: Install-Module -Name Pester -Force
-      - name: Invoke-Pester
-        run: .\runners\tests.runner.ps1
   nuke-with-logging:
     name: ./build.sh ExecuteTestsFixLogging
     runs-on: windows-latest
