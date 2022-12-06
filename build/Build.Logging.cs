@@ -1,17 +1,15 @@
 using Nuke.Common;
 using Nuke.Common.Execution;
 using Serilog;
-using static Nuke.Common.Tools.PowerShell.PowerShellTasks;
-using static PowerShellCoreTasks;
 using Nuke.Common.Tools.PowerShell;
-using Nuke.Common.Tooling;
+using static PowerShellCoreTasks;
 
 partial class Build
 {
 	Target ExecuteTests => _ => _
 		.Executes(() =>
 		{
-			PowerShellCore(_ => _
+			PowerShellCoreTasks.PowerShellCore(_ => _
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
 		});
 
@@ -28,7 +26,7 @@ partial class Build
 				.ConfigureLevel()
 				.ConfigureFilter()
 				.CreateLogger();
-			PowerShellCore(_ => _
+			PowerShellCoreTasks.PowerShellCore(_ => _
 				.SetFile(RootDirectory / "runners" / "tests.runner.ps1"));
 		});
 
