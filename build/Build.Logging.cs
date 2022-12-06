@@ -10,7 +10,7 @@ partial class Build
 	Target ExecuteTests => _ => _
 		.Executes(() =>
 		{
-			return PowerShell(settings => settings
+			PowerShell(settings => settings
 				// .SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
 				.SetNoLogo(true)
@@ -30,6 +30,7 @@ partial class Build
 			// 	.ConfigureLevel()
 			// 	.ConfigureFilter()
 			// 	.CreateLogger();
+			Assert.Fail("Please fail");
 			PowerShell(settings => settings
 				// .SetProcessToolPath("pwsh")
 				.SetNoProfile(true)
